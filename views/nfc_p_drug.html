@@ -1,0 +1,300 @@
+
+<div align="center" class="container" id="content_box">
+	<div  class="card col-sm-12 col-md-12 ">
+		<div  class="card-body">
+			<h4>ยา</h4>
+				<div align="right" class="col-md-12">
+					<a class="btn btn-secondary" href="?import_drug_tmt"><i class="fas fa-upload fa-1x"></i></a>
+					<button type="button" onclick="open_add()" class="btn btn-light" data-toggle="modal" data-target="#modal_p_drug">
+						<i class="fas fa-plus-square fa-1x"></i>
+					</button>
+				</div>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>ลำดับ</th>
+						<th>ชื่อยา</th>
+						<th>ดู</th>
+					</tr>
+				</thead>
+			    <tbody id="p_drug_content">
+			      
+			    </tbody>
+			  </table>
+	 <!-- The Modal -->
+	<div class="modal fade" id="modal_p_drug" >
+		<div class="modal-dialog modal-lg" >
+			<div class="modal-content">
+	        <!-- Modal Header -->
+				<div class="modal-header" id="head_stage">
+					<h4 class="modal-title">ข้อมูลยา</h4>
+					<button type="button" onclick="clear_input()" class="close" data-dismiss="modal">&times;</button>
+				</div>
+	        <!-- Modal body -->
+	        <form id="frm_p_drug" enctype="multipart/form-data">
+				<div class="modal-body">
+					<!-- <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="p_height"></label>
+					    <div class="input-group">
+					        <div align="center">
+					        	<center><img id="sh_img" class="rounded" width="50%">
+					        </div>
+					    </div>
+				    </div> -->
+				    <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="d_id">รหัสยา</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="fas fa-tags"></i></span>
+					        </div>
+					        <input type="text" class="form-control" id="d_id" name="d_id" oninvalid="this.setCustomValidity('รหัสยา')"required oninput="this.setCustomValidity('')" placeholder="รหัสยา">
+					    </div>
+				    </div>
+					<div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="d_name">ชื่อยา</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="fas fa-tags"></i></span>
+					        </div>
+					        <input type="text" class="form-control" id="d_name" name="d_name" oninvalid="this.setCustomValidity('ชื่อยา')"required oninput="this.setCustomValidity('')" placeholder="ชื่อยา">
+					    </div>
+				    </div>
+				    <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="d_expire">วันหมดอายุ</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="far fa-calendar-times"></i></span>
+					        </div>
+					        <input type="text" class="form-control" id="d_expire" name="d_expire" oninvalid="this.setCustomValidity('วันหมดอายุ')" required oninput="this.setCustomValidity('')" placeholder="วันหมดอายุ">
+					    </div>
+				    </div>
+				    <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="d_info">รายละเอียดยา</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="fas fa-tag"></i></span>
+					        </div>
+					        <textarea class="form-control" id="d_info" name="d_info"></textarea>
+					    </div>
+				    </div>
+				    
+				    <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="d_use">วิธีใช้</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="fas fa-venus-mars"></i></i></span>
+					        </div>
+					        <div style="margin-left:10px;">
+								<div class="form-check form-check-inline" id="p_use_box">
+								</div>
+							</div>
+					    </div>
+					
+				    </div>
+				    
+				    <div id="frm"></div>
+				    <div id="msg"></div>
+				</div>
+			
+	        <!-- Modal footer -->
+				<div class="modal-footer" id="modal_p_drug_foot">	
+					<div id="mng"></div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var data;
+	// -------------------------- onload ---------------------------//
+	// let link="http://localhost/nfc_data/call_controller/api.php";
+	open_add();
+	load_p_drug();
+	
+	// $("#modal_p_drug").modal();
+	$("title").text(title());
+	
+
+	// ------------------------- function -------------------------//
+	function open_add(){
+		load_p_use();
+		let txt=`<button id="btn_save" onclick="add()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
+		$("#mng").html(txt);
+	}
+	function sh_data(d_id,d_name,d_expire,d_info){
+		load_p_use();
+		let txt=`<button id="btn_del" onclick="del()" type="button" class="btn btn-danger" data-dismiss=""><i class="fas fa-trash-alt fa-1x"></i> ลบ</button>
+		<button id="btn_save" onclick="update()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
+
+		$("#d_id").val(d_id);
+		$("#d_name").val(d_name);
+		$("#d_expire").val(d_expire);
+		$("#d_info").val(d_info);
+		$("#modal_p_drug").modal();
+
+		let msg;
+			$.ajax({
+				type:"POST",
+				url:link,
+				data:{
+					"select_p_drug":true,
+					"filter":d_id
+				}
+			}).done((res)=>{
+				var data=JSON.parse(res);
+				
+				if(!data.msg){
+					$.each(data,(i, item)=>{
+						
+						let chk="#"+item.u_id;
+						$(chk).prop('checked', true);
+					})
+				}
+			});	
+		$("#mng").html(txt);
+	}
+	function clear_input(){
+		$("#d_id").val('');
+		$("#d_name").val('');
+		$("#d_expire").val('');
+		$("#d_info").val('');
+		$("#p_use_box").html('');
+	}
+	function add(){
+		$("#msg").html("");
+		let sta=0;
+		if($("#d_name").val()==""){sta++;}
+		if(sta!=0){$("#frm_p_drug").addClass("was-validated");return false;}
+		else{
+			let f_data=new FormData();
+			let data = $("#frm_p_drug").serializeArray();
+			$.each(data,(key,val)=>{
+				f_data.append(val.name,val.value);
+			});
+			f_data.append("p_drug_add",true);
+			event.preventDefault();
+			$.ajax({
+				type: "POST",
+	 			url: link,
+	 			data: f_data,
+				contentType: false,
+				processData: false,
+			}).done((res)=> {
+				let data=JSON.parse(res);
+				if(data.status){
+					$("#modal_p_drug").modal('toggle');
+					load_p_drug();
+					clear_input();
+				}else{
+					$("#msg").html("<div style='color:#bd4646'>"+data.msg+"</div>");
+				}	 				
+	 		});
+		}
+	}	
+	function update(){
+			$("#msg").html("");
+			let f_data=new FormData();
+			let data = $("#frm_p_drug").serializeArray();
+			$.each(data,(key,val)=>{
+				f_data.append(val.name,val.value);
+			});
+			f_data.append("p_drug_update",true);
+			event.preventDefault();
+
+				$.ajax({
+					type: "POST",
+		 			url: link,
+		 			data: f_data,
+					contentType: false,
+					processData: false,
+				}).done((res)=> {
+					let data=JSON.parse(res);
+					if(data.status){
+						$("#modal_p_drug").modal('toggle');
+						load_p_drug();
+						clear_input();
+					}else{
+						$("#msg").html("<div style='color:#bd4646'>"+data.msg+"</div>");
+					}
+				});	
+			
+	}	
+	function del(){
+			$("#msg").html("");
+			$.ajax({
+				type:"POST",
+				url:link,
+				data:{
+					"d_id":$("#d_id").val(),
+					"p_drug_del":true
+				}
+			}).done((res)=>{
+				let data=JSON.parse(res);
+				if(data.status){
+					$("#modal_p_drug").modal('toggle');
+					load_p_drug();
+					clear_input();
+				}else{
+					$("#msg").html("<div style='color:#bd4646'>"+data.msg+"</div>");
+				}
+
+			});
+	}
+	function load_p_drug(filter){
+			let txt;
+			$.ajax({
+				type:"POST",
+				url:link,
+				data:{
+					"load_p_drug":true,
+					"filter":filter
+				}
+			}).done((res)=>{
+				var data=JSON.parse(res);
+				if(!data.msg){
+					$.each(data,(i, item)=>{
+						let css=`style="background-color:#98afc9;color:#fff"`;
+						txt+=`<tr ${css}>
+					        <td>${i+1}</td>
+					        <td>${item.d_name} </td>
+					        <td><button style="color:#fff" type="button" onclick="sh_data('${item.d_id}','${item.d_name}','${item.d_expire}','${item.d_info}')" class="btn">
+				        		<i  class="fas fa-book-open fa-2x"></i>
+				        	</button>`;
+						
+					});
+				}else{
+					txt=`<tr><td colspan='3'>no data</td></tr>`;
+				}
+				$("#p_drug_content").html(txt);
+			});
+	}
+	function load_p_use(filter){
+			let txt="";
+			$.ajax({
+				type:"POST",
+				url:link,
+				data:{
+					"load_p_use":true,
+					"filter":filter
+				}
+			}).done((res)=>{
+				var data=JSON.parse(res);
+				let css=`style="margin-left:40px"`
+				if(!data.msg){
+					$.each(data,(i, item)=>{
+						
+						txt+=`<input ${css} class="form-check-input" type="checkbox" name="p_use[]" id="${item.u_id}" value="'${item.u_id}'">
+								  <label class="form-check-label">${item.u_description}</label>`;
+						
+					});
+				}else{
+					txt=`<tr><td colspan='3'>no data</td></tr>`;
+				}
+				$("#p_use_box").html(txt);
+			});
+	}
+
+</script>
+

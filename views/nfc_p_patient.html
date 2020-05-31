@@ -1,0 +1,321 @@
+
+<div align="center" class="container" id="content_box">
+	<div  class="card col-sm-12 col-md-12 ">
+		<div  class="card-body">
+			<h4>ผู้ป่วย</h4>
+				<div align="right" class="col-md-12">
+					<button type="button" onclick="open_add()" class="btn" data-toggle="modal" data-target="#modal_p_patient">
+						<i class="fas fa-plus-square fa-2x"></i>
+					</button>
+
+					<button type="button" class="btn"></button>
+				</div>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>ลำดับ</th>
+						<th>ชื่อ-นามสกุล</th>
+						<th>หมู่เลือด</th>
+						<th>ดู</th>
+					</tr>
+				</thead>
+			    <tbody id="p_patient_content">
+			      
+			    </tbody>
+			  </table>
+	 <!-- The Modal -->
+	<div class="modal fade" id="modal_p_patient" >
+		<div class="modal-dialog modal-lg" >
+			<div class="modal-content">
+	        <!-- Modal Header -->
+				<div class="modal-header" id="head_stage">
+					<h4 class="modal-title">ข้อมูลผู้ป่วย</h4>
+					<button type="button" onclick="clear_input()" class="close" data-dismiss="modal">&times;</button>
+				</div>
+	        <!-- Modal body -->
+	        <form id="frm_p_patient" enctype="multipart/form-data">
+				<div class="modal-body">
+					<!-- <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="p_height"></label>
+					    <div class="input-group">
+					        <div align="center">
+					        	<center><img id="sh_img" class="rounded" width="50%">
+					        </div>
+					    </div>
+				    </div> -->
+					<div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="p_name">ชื่อ-นามสกุล</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="fas fa-tags"></i></span>
+					        </div>
+					        <input type="hidden" name="p_id" id="p_id">
+					        <input type="text" class="form-control" id="p_name" name="p_name" oninvalid="this.setCustomValidity('ชื่อ')"required oninput="this.setCustomValidity('')" placeholder="ชื่อ">
+					        <input type="text" class="form-control" id="p_lname" name="p_lname" oninvalid="this.setCustomValidity('นามสกุล')"required oninput="this.setCustomValidity('')" placeholder="นามสกุล">
+					    </div>
+				    </div>
+				    <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="p_age">อายุ</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="fas fa-tag"></i></span>
+					        </div>
+					        <input type="number" class="form-control" id="p_age" name="p_age" oninvalid="this.setCustomValidity('อายุ')" required oninput="this.setCustomValidity('')" placeholder="อายุ">
+					    </div>
+				    </div>
+				    <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="p_age">หมู่เลือด</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="fas fa-tint"></i></i></span>
+					        </div>
+					        <div style="margin-left:10px;">
+
+					        	<div class="custom-control custom-radio custom-control-inline">
+								  <input type="radio" id="p_blood_a" name="p_blood" class="custom-control-input" value="A">
+								  <label class="custom-control-label" for="p_blood_a">A</label>
+								</div>
+								<div class="custom-control custom-radio custom-control-inline">
+								  <input type="radio" id="p_blood_b" name="p_blood" class="custom-control-input" value="B">
+								  <label class="custom-control-label" for="p_blood_b">B</label>
+								</div>
+								<div class="custom-control custom-radio custom-control-inline">
+								  <input type="radio" id="p_blood_o" name="p_blood" class="custom-control-input" value="O">
+								  <label class="custom-control-label" for="p_blood_o">O</label>
+								</div>
+								<div class="custom-control custom-radio custom-control-inline">
+								  <input type="radio" id="p_blood_ab" name="p_blood" class="custom-control-input" value="AB">
+								  <label class="custom-control-label" for="p_blood_ab">AB</label>
+								</div>
+							</div>
+					    </div>
+					
+				    </div>
+				    <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="p_gender">เพศ</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="fas fa-venus-mars"></i></i></span>
+					        </div>
+					        <div style="margin-left:10px;">
+					        	<div class="custom-control custom-radio custom-control-inline">
+								  <input type="radio" id="p_gender_m" name="p_gender" class="custom-control-input" value="M">
+								  <label class="custom-control-label" for="p_gender_m">ชาย</label>
+								</div>
+								<div class="custom-control custom-radio custom-control-inline">
+								  <input type="radio" id="p_gender_w" name="p_gender" class="custom-control-input" value="W">
+								  <label class="custom-control-label" for="p_gender_w">หญิง</label>
+								</div>
+
+								
+							</div>
+					    </div>
+					
+				    </div>
+				    <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="p_weight">น้ำหนัก</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="fas fa-weight"></i></span>
+					        </div>
+					        <input type="text" class="form-control" id="p_weight" name="p_weight" oninvalid="this.setCustomValidity('น้ำหนัก')"required oninput="this.setCustomValidity('')" placeholder="น้ำหนัก">
+					    </div>
+				    </div>
+				    <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="p_height">ส่วนสูง</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="fas fa-align-justify"></i></span>
+					        </div>
+					        <input type="text" class="form-control" id="p_height" name="p_height" oninvalid="this.setCustomValidity('ส่วนสูง')"required oninput="this.setCustomValidity('')" placeholder="ส่วนสูง">
+					    </div>
+				    </div>
+
+
+				    <div id="frm"></div>
+				    <div id="msg"></div>
+				</div>
+			
+	        <!-- Modal footer -->
+				<div class="modal-footer" id="modal_p_patient_foot">	
+					<div id="mng"></div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var data;
+	// -------------------------- onload ---------------------------//
+	// let link="http://localhost/nfc_data/call_controller/api.php";
+	open_add();
+	load_p_patient();
+	// $("#modal_p_patient").modal();
+	$("title").text(title());
+	
+
+	// ------------------------- function -------------------------//
+	function open_add(){
+		let txt=`<button id="btn_save" onclick="add()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
+		$("#mng").html(txt);
+	}
+	function sh_data(p_id,p_name,p_lname,p_age,p_blood,p_weight,p_height,p_gender){
+
+		let txt=`<button id="btn_del" onclick="del()" type="button" class="btn btn-danger" data-dismiss=""><i class="fas fa-trash-alt fa-1x"></i> ลบ</button>
+		<button id="btn_save" onclick="update()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
+
+	
+		$("#p_id").val(p_id);
+		$("#p_name").val(p_name);
+		$("#p_lname").val(p_lname);
+		$("#p_weight").val(p_weight);
+		$("#p_height").val(p_height);
+		$("#p_age").val(p_age);
+		$("#modal_p_patient").modal();
+		
+		$("#p_blood").val(p_blood);
+
+		if(p_gender=="M"){$("#p_gender_m").prop('checked', true);}
+		else{$("#p_gender_w").prop('checked', true);}
+
+		if(p_blood=="A"){$("#p_blood_a").prop('checked', true);}
+		else if(p_blood=="B"){$("#p_blood_b").prop('checked', true);}
+		else if(p_blood=="O"){$("#p_blood_o").prop('checked', true);}
+		else if(p_blood=="AB"){$("#p_blood_ab").prop('checked', true);}
+
+		// $("#frm").html(sta);
+		$("#mng").html(txt);
+	}
+	function clear_input(){
+		$("#p_id").val('');
+		$("#p_name").val('');
+		$("#p_lname").val('');
+		$("#p_age").val('');
+		$("#p_blood").val('');
+		$("#p_weight").val('');
+		$("#p_height").val('');
+		$("#p_gender").val('');
+		$("#p_gender_m").prop('checked', false);
+		$("#p_gender_w").prop('checked', false);
+		$("#p_blood_a").prop('checked', false);
+		$("#p_blood_b").prop('checked', false);
+		$("#p_blood_o").prop('checked', false);
+		$("#p_blood_ab").prop('checked', false);
+	}
+	function add(){
+		$("#msg").html("");
+		let sta=0;
+		if($("#p_name").val()==""){sta++;}
+		if($("#p_lname").val()==""){sta++;}
+		if($("#p_age").val()==""){sta++;}
+		if($("#p_blood").val()==""){sta++;}
+		if(sta!=0){$("#frm_p_patient").addClass("was-validated");return false;}
+		else{
+			let f_data=new FormData();
+			let data = $("#frm_p_patient").serializeArray();
+			$.each(data,(key,val)=>{
+				f_data.append(val.name,val.value);
+			});
+			f_data.append("p_patient_add",true);
+			event.preventDefault();
+			$.ajax({
+				type: "POST",
+	 			url: link,
+	 			data: f_data,
+				contentType: false,
+				processData: false,
+			}).done((res)=> {
+				let data=JSON.parse(res);
+				if(data.status){
+					$("#modal_p_patient").modal('toggle');
+					(sessionStorage.getItem("u_status")==2?load_p_patient("u_id="+sessionStorage.getItem("id")):load_p_patient());
+					clear_input();
+				}else{
+					$("#msg").html("<div style='color:#bd4646'>"+data.msg+"</div>");
+				}	 				
+	 		});
+		}
+	}	
+	function update(){
+			$("#msg").html("");
+			let f_data=new FormData();
+			let data = $("#frm_p_patient").serializeArray();
+			$.each(data,(key,val)=>{
+				f_data.append(val.name,val.value);
+			});
+			f_data.append("p_patient_update",true);
+			event.preventDefault();
+
+				$.ajax({
+					type: "POST",
+		 			url: link,
+		 			data: f_data,
+					contentType: false,
+					processData: false,
+				}).done((res)=> {
+					let data=JSON.parse(res);
+					if(data.status){
+						$("#modal_p_patient").modal('toggle');
+						load_p_patient();
+						clear_input();
+					}else{
+						$("#msg").html("<div style='color:#bd4646'>"+data.msg+"</div>");
+					}
+				});	
+			
+	}	
+	function del(){
+			$("#msg").html("");
+			$.ajax({
+				type:"POST",
+				url:link,
+				data:{
+					"p_id":$("#p_id").val(),
+					"p_patient_del":true
+				}
+			}).done((res)=>{
+				let data=JSON.parse(res);
+				if(data.status){
+					$("#modal_p_patient").modal('toggle');
+					load_p_patient();
+					clear_input();
+				}else{
+					$("#msg").html("<div style='color:#bd4646'>"+data.msg+"</div>");
+				}
+
+			});
+	}
+	function load_p_patient(filter){
+			let txt;
+			$.ajax({
+				type:"POST",
+				url:link,
+				data:{
+					"load_p_patient":true,
+					"filter":filter
+				}
+			}).done((res)=>{
+				var data=JSON.parse(res);
+				if(!data.msg){
+					$.each(data,(i, item)=>{
+						let css=`style="background-color:#98afc9;color:#fff"`;
+						txt+=`<tr ${css}>
+					        <td>${i+1}</td>
+					        <td>${item.p_name} ${item.p_lname}</td>
+					        <td>${item.p_blood}</td>
+					        <td><button style="color:#fff" type="button" onclick="sh_data('${item.p_id}','${item.p_name}','${item.p_lname}','${item.p_age}','${item.p_blood}','${item.p_weight}','${item.p_height}','${item.p_gender}')" class="btn">
+				        		<i  class="fas fa-book-open fa-2x"></i>
+				        	</button>`;
+						
+					});
+				}else{
+					txt=`<tr><td colspan='3'>no data</td></tr>`;
+				}
+				$("#p_patient_content").html(txt);
+			});
+	}
+
+</script>
+
