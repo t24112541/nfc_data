@@ -1,3 +1,4 @@
+<div id="loading" class="spinner_border text-primary" style="display:none"></div>
 <div class="container" id="content_box">
 	<div  class="card col-sm-12 col-md-12 ">
 		<div  class="card-body">
@@ -37,7 +38,7 @@
 					<button type="button" id="upload_tmt" class="btn btn-secondary" onclick="func_upload_tmt()" disabled>นำเข้าข้อมูล</button>
 				</div>
 				<div class="col-md-12 mb-12" style="margin:10px;" >
-					<div id="loading" style="display: none" class="spinner-border text-primary"></div>
+					
 					<div id="load_pass" style="display: none;color:#28a745"><i class="fas fa-check-circle fa-3x"></i></div>
 					<div id="load_fail" style="display: none;color:#c31223"><i class="fas fa-times-circle fa-3x"></i></i></div>
 				</div>

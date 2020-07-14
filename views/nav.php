@@ -1,12 +1,12 @@
 <div id="mySidenav" class="sidenav" style="">
-	<form class="form-inline">
-	    <!-- <div class="input-group">
+<!-- 	<form class="form-inline">
+	    <div class="input-group">
 	      <div class="input-group-prepend">
 	        <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
 	      </div>
 	      <input type="text" class="form-control" placeholder="ค้นหา" aria-label="Username" aria-describedby="basic-addon1">
-	    </div> -->
-	</form>
+	    </div>
+	</form> -->
 	<!-- <hr style="background-color: #fff"/> -->
 		<div id="user">
 		</div>
@@ -25,18 +25,14 @@
 
 	</ul>
 	
-	<div id="log"><a style="font-size:14px" class="navbar-brand" href="?login"><i class="fas fa-sign-in-alt"></i> login</a></div>
+	<!-- <div id="log"><a style="font-size:14px" class="navbar-brand" href="?login"><i class="fas fa-sign-in-alt"></i> login</a></div> -->
   	
 </nav>
 <script>
 let stg=0;
 var link="http://localhost/nfc_data/call_controller/api.php";
 load_menu();
-cart();
-function cart(){
-	// $("#amount").text(sessionStorage.getItem("cart").length);
-	console.log("cart");
-}
+
 function openNav() {
     stg++;
     if(stg%2==1){
@@ -66,8 +62,9 @@ function load_menu(){
 	// 	let data=JSON.parse(res);
 	// 	$.each(data,(i, item)=>{
 		default_menu+=`<a href="?nfc_p_drug"><i class="fas fa-store-alt"></i> ข้อมูลยา</a>`;
-		default_menu+=`<a href="?nfc_p_patient"><i class="fas fa-store-alt"></i> ข้อมูลผู้ป่วย</a>`;
-		default_menu+=`<a href="?import_drug_tmt"><i class="fas fa-store-alt"></i> นำเข้าข้อมูลยา</a>`;
+		default_menu+=`<a href="?nfc_p_patient"><i class="fas fa-user-injured"></i> ข้อมูลผู้ป่วย</a>`;
+		default_menu+=`<a href="?import_drug_tmt"><i class="fas fa-file-upload"></i> นำเข้าข้อมูลยา</a>`;
+		default_menu+=`<hr><a href="?nfc_p_staff"><i class="fas fa-users"></i> ข้อมูลเจ้าหน้าที่</a>`;
 		// });
 		
 		$("#default_menu_box").html(default_menu);

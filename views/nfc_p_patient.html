@@ -1,28 +1,49 @@
-
-<div align="center" class="container" id="content_box">
-	<div  class="card col-sm-12 col-md-12 ">
-		<div  class="card-body">
-			<h4>ผู้ป่วย</h4>
-				<div align="right" class="col-md-12">
-					<button type="button" onclick="open_add()" class="btn" data-toggle="modal" data-target="#modal_p_patient">
-						<i class="fas fa-plus-square fa-2x"></i>
-					</button>
-
-					<button type="button" class="btn"></button>
+<div id="loading" class="spinner_border text-primary" style="display:none"></div>
+<!-- Content Column -->
+<div class="d-sm-flex align-items-center justify-content-between mb-2">
+    <h1 class="h3 mb-0 text-gray-800">ผู้ป่วย</h1> <!-- d-none -->
+    			<div class="">
+					<form class="form-inline" id="frm_search_patient">
+				    <div class="input-group">
+				      <div class="input-group-prepend">
+				        <span class="input-group-text"><i class="fas fa-search"></i></span>
+				      </div>
+				      <input id="txt_search" type="text" class="form-control" placeholder="ค้นหาจากชื่อผู้ป่วย..">
+				      <button type="button" onclick="func_search()" class="btn btn-light">ค้นหา</button>
+				    </div>
+				  </form>
 				</div>
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>ลำดับ</th>
-						<th>ชื่อ-นามสกุล</th>
-						<th>หมู่เลือด</th>
-						<th>ดู</th>
-					</tr>
-				</thead>
-			    <tbody id="p_patient_content">
-			      
-			    </tbody>
-			  </table>
+    
+</div>
+<div class="row">
+    <div class="col-lg-12 mb-4">
+        <!-- Project Card Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header d-sm-flex align-items-center justify-content-between mb-2">
+                <h6 class="m-0 font-weight-bold text-primary">ข้อมูลผู้ป่วย</h6>
+                <a class=" d-sm-inline-block btn btn-sm btn btn-secondary shadow-sm" onclick="open_add()" data-toggle="modal" data-target="#modal_p_staff"><i class="fas fa-plus-square fa-md text-white"></i></a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>ลำดับ</th>
+								<th>ชื่อ-นามสกุล</th>
+								<th>หมู่เลือด</th>
+								<th>ดู</th>
+							</tr>
+						</thead>
+					    <tbody id="p_patient_content">
+					      
+					    </tbody>
+					</table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
 	 <!-- The Modal -->
 	<div class="modal fade" id="modal_p_patient" >
 		<div class="modal-dialog modal-lg" >
@@ -43,13 +64,22 @@
 					        </div>
 					    </div>
 				    </div> -->
+				    <div class="col-md-12 mb-12">
+				      <label class="cv_keep-left" for="p_id">รหัสประชาชน</label>
+					    <div class="input-group">
+					        <div class="input-group-prepend">
+					          <span class="input-group-text" ><i class="fas fa-tags"></i></span>
+					        </div>
+					        <input type="hidden" name="frm_mode" id="frm_mode">
+					        <input type="text" class="form-control" id="p_id" name="p_id" oninvalid="this.setCustomValidity('รหัสประชาชน')"required oninput="this.setCustomValidity('')" placeholder="รหัสประชาชน">
+					    </div>
+				    </div>
 					<div class="col-md-12 mb-12">
 				      <label class="cv_keep-left" for="p_name">ชื่อ-นามสกุล</label>
 					    <div class="input-group">
 					        <div class="input-group-prepend">
 					          <span class="input-group-text" ><i class="fas fa-tags"></i></span>
 					        </div>
-					        <input type="hidden" name="p_id" id="p_id">
 					        <input type="text" class="form-control" id="p_name" name="p_name" oninvalid="this.setCustomValidity('ชื่อ')"required oninput="this.setCustomValidity('')" placeholder="ชื่อ">
 					        <input type="text" class="form-control" id="p_lname" name="p_lname" oninvalid="this.setCustomValidity('นามสกุล')"required oninput="this.setCustomValidity('')" placeholder="นามสกุล">
 					    </div>
@@ -72,7 +102,7 @@
 					        <div style="margin-left:10px;">
 
 					        	<div class="custom-control custom-radio custom-control-inline">
-								  <input type="radio" id="p_blood_a" name="p_blood" class="custom-control-input" value="A">
+								  <input type="radio" id="p_blood_a" name="p_blood" class="custom-control-input" value="A" checked>
 								  <label class="custom-control-label" for="p_blood_a">A</label>
 								</div>
 								<div class="custom-control custom-radio custom-control-inline">
@@ -99,7 +129,7 @@
 					        </div>
 					        <div style="margin-left:10px;">
 					        	<div class="custom-control custom-radio custom-control-inline">
-								  <input type="radio" id="p_gender_m" name="p_gender" class="custom-control-input" value="M">
+								  <input type="radio" id="p_gender_m" name="p_gender" class="custom-control-input" value="M" checked>
 								  <label class="custom-control-label" for="p_gender_m">ชาย</label>
 								</div>
 								<div class="custom-control custom-radio custom-control-inline">
@@ -137,37 +167,68 @@
 				</div>
 			
 	        <!-- Modal footer -->
-				<div class="modal-footer" id="modal_p_patient_foot">	
+				<div class="modal-footer_cv text-center" id="modal_p_patient_foot">	
 					<div id="mng"></div>
 				</div>
 				</form>
 			</div>
 		</div>
 	</div>
+
+<div style="margin-top:10px;">
+	<ul class="pagination justify-content-center" id="pagination">
+  	</ul>
 </div>
+
 
 <script type="text/javascript">
 	var data;
+	var tmp_page;
+	var tmp_filter;
 	// -------------------------- onload ---------------------------//
 	// let link="http://localhost/nfc_data/call_controller/api.php";
 	open_add();
-	load_p_patient();
+	load_p_patient('',1);
 	// $("#modal_p_patient").modal();
 	$("title").text(title());
 	
 
 	// ------------------------- function -------------------------//
+	$(document).on('keypress',function(e) {
+	    if(e.which == 13) {
+	    	if($("#frm_mode").val()==2){
+	    		update();
+	    	}else{
+	    		add();
+	    	}
+	        
+	    }
+	});
+	$( "#frm_search_patient" ).submit(function( event ) {
+	  func_search();
+	  event.preventDefault();
+	});
+
+	function func_search(){
+		load_p_patient($("#txt_search").val(),tmp_page);
+	}
+
 	function open_add(){
+		clear_input();
 		let txt=`<button id="btn_save" onclick="add()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
 		$("#mng").html(txt);
 	}
 	function sh_data(p_id,p_name,p_lname,p_age,p_blood,p_weight,p_height,p_gender){
-
-		let txt=`<button id="btn_del" onclick="del()" type="button" class="btn btn-danger" data-dismiss=""><i class="fas fa-trash-alt fa-1x"></i> ลบ</button>
-		<button id="btn_save" onclick="update()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
+		clear_input();
+		let txt=`
+		
+		<button id="btn_del" onclick="del()" type="button" class="btn btn-danger float-left" data-dismiss=""><i class="fas fa-trash-alt fa-1x"></i> ลบ</button>
+		<a href="?sh_patient_detail=${p_id}" class="btn btn-info " style="margin-left:0 !important" data-dismiss=""><i class="fab fa-readme" fa-1x"></i> ยาที่ใช้</a>
+		<button id="btn_save" onclick="update()" type="button" class="btn btn-success float-right" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
 
 	
 		$("#p_id").val(p_id);
+		$("#p_id").prop('readonly', true);
 		$("#p_name").val(p_name);
 		$("#p_lname").val(p_lname);
 		$("#p_weight").val(p_weight);
@@ -185,6 +246,7 @@
 		else if(p_blood=="O"){$("#p_blood_o").prop('checked', true);}
 		else if(p_blood=="AB"){$("#p_blood_ab").prop('checked', true);}
 
+		$("#frm_mode").val(2);
 		// $("#frm").html(sta);
 		$("#mng").html(txt);
 	}
@@ -197,20 +259,25 @@
 		$("#p_weight").val('');
 		$("#p_height").val('');
 		$("#p_gender").val('');
-		$("#p_gender_m").prop('checked', false);
+		$("#p_gender_m").prop('checked', true);
 		$("#p_gender_w").prop('checked', false);
-		$("#p_blood_a").prop('checked', false);
+		$("#p_blood_a").prop('checked', true);
 		$("#p_blood_b").prop('checked', false);
 		$("#p_blood_o").prop('checked', false);
 		$("#p_blood_ab").prop('checked', false);
+		$("#p_id").prop('readonly', false);
+		$("#frm_mode").val(1);
+		$("#frm_p_patient").removeClass("was-validated");
 	}
 	function add(){
 		$("#msg").html("");
 		let sta=0;
+		if($("#p_id").val()==""){sta++;}
 		if($("#p_name").val()==""){sta++;}
 		if($("#p_lname").val()==""){sta++;}
 		if($("#p_age").val()==""){sta++;}
-		if($("#p_blood").val()==""){sta++;}
+		if($("#p_gender_m").is(":checked")==false && $("#p_gender_w").is(":checked")==false){sta++;}
+		if($("#p_blood_a").is(":checked")==false && $("#p_blood_b").is(":checked")==false && $("#p_blood_o").is(":checked")==false && $("#p_blood_ab").is(":checked")==false){sta++;}
 		if(sta!=0){$("#frm_p_patient").addClass("was-validated");return false;}
 		else{
 			let f_data=new FormData();
@@ -230,7 +297,7 @@
 				let data=JSON.parse(res);
 				if(data.status){
 					$("#modal_p_patient").modal('toggle');
-					(sessionStorage.getItem("u_status")==2?load_p_patient("u_id="+sessionStorage.getItem("id")):load_p_patient());
+					load_p_patient(tmp_filter,tmp_page);
 					clear_input();
 				}else{
 					$("#msg").html("<div style='color:#bd4646'>"+data.msg+"</div>");
@@ -258,7 +325,7 @@
 					let data=JSON.parse(res);
 					if(data.status){
 						$("#modal_p_patient").modal('toggle');
-						load_p_patient();
+						load_p_patient(tmp_filter,tmp_page);
 						clear_input();
 					}else{
 						$("#msg").html("<div style='color:#bd4646'>"+data.msg+"</div>");
@@ -279,30 +346,34 @@
 				let data=JSON.parse(res);
 				if(data.status){
 					$("#modal_p_patient").modal('toggle');
-					load_p_patient();
+					load_p_patient(tmp_filter,tmp_page);
 					clear_input();
 				}else{
-					$("#msg").html("<div style='color:#bd4646'>"+data.msg+"</div>");
+					$("#msg").html("<div class='col-sm-12' style='color:#bd4646;text-align:center'>"+data.msg+"</div>");
 				}
 
 			});
 	}
-	function load_p_patient(filter){
+	function load_p_patient(filter,page){
 			let txt;
+			tmp_filter=filter;
+			$("#loading").show();
 			$.ajax({
 				type:"POST",
 				url:link,
 				data:{
 					"load_p_patient":true,
-					"filter":filter
+					"filter":filter,
+					"page":page
 				}
 			}).done((res)=>{
 				var data=JSON.parse(res);
 				if(!data.msg){
 					$.each(data,(i, item)=>{
 						let css=`style="background-color:#98afc9;color:#fff"`;
+						let row=(page==1?parseInt(i)+1:(parseInt(i)+1)+(page-1)*10);
 						txt+=`<tr ${css}>
-					        <td>${i+1}</td>
+					        <td>${row}</td>
 					        <td>${item.p_name} ${item.p_lname}</td>
 					        <td>${item.p_blood}</td>
 					        <td><button style="color:#fff" type="button" onclick="sh_data('${item.p_id}','${item.p_name}','${item.p_lname}','${item.p_age}','${item.p_blood}','${item.p_weight}','${item.p_height}','${item.p_gender}')" class="btn">
@@ -313,8 +384,52 @@
 				}else{
 					txt=`<tr><td colspan='3'>no data</td></tr>`;
 				}
+				$("#loading").hide();
 				$("#p_patient_content").html(txt);
+				set_pagination(filter,page);
 			});
+	}
+	function set_pagination(filter,page){
+		let start_page;
+		let end_page;
+		console.log(filter);
+		console.log(page);
+		$("#pagination").empty();
+		
+
+		$.ajax({
+				type:"POST",
+				url:link,
+				data:{
+					"set_pagination_patient":true,
+					"filter":filter
+				}
+			}).done((res)=>{
+				var data=JSON.parse(res);
+				tmp_page=(page==="pagi_first"?1:(page=="pagi_last"?data:page));
+				if(tmp_page>5){
+					start_page=tmp_page-4;
+					end_page=tmp_page+5;
+				}else{
+					start_page=1;
+					end_page=10;
+				}
+				
+				$("#pagination").append(`<li class="page-item " id="pagi_first"><a class="page-link" onclick="load_p_patient('${tmp_filter}',1)">first</a></li>`);
+				
+				for(let i=start_page;i<=data;i++){
+					if(i<=end_page){
+						$("#pagination").append(`<li class="page-item" id="pagi_${i}"><a class="page-link" onclick="load_p_patient('${tmp_filter}',${i})">${i}</a></li>`);
+						if(i==page){
+							let active_page=`#pagi_${page}`;
+							$(active_page).addClass("active");
+						}
+					}
+				}
+				
+				$("#pagination").append(`<li class="page-item " id="pagi_last"><a class="page-link" onclick="load_p_patient('${tmp_filter}',${data})">last</a></li>`);
+				
+			});	
 	}
 
 </script>

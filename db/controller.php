@@ -37,49 +37,25 @@ class controller{
 		return json_encode($res);
 	}
 	function login($user,$pass){
-		$token_id=$this->rand_token();
-		$token=(isset($_COOKIE['token'])&&$_COOKIE['token']!=""?"&& p_log.log_mac=='{$_COOKIE['token']}'":"&& p_log.log_mac!='{$token_id}'");
 
-		$que_admin=$this->conn->query("select * from p_admin where p_admin.a_username='{$user}' && p_admin.a_password='{$pass}'");
-		if($que_admin->num_rows>0){
-			$sh=$que_admin->fetch_assoc();
-			$field_log="u_id,log_status,log_mac";
-			$val_log="'{$sh['a_id']}','1','{$token_id}'";
-
-			$que_log=json_decode(($this->insert("p_log",$field_log,$val_log)));	
-			// setcookie("token",$token_id);
-			$res=[
-				"status"=>1,
-				"id"=>$sh['a_id'],
-				"name"=>$sh['a_name'],
-				"lname"=>$sh['a_lname'],
-				"u_status"=>"admin",
-				"log_id"=>$que_log->last_id
-			];
-		}else{
-			$que=$this->conn->query("select * from p_user where u_email='{$user}' && u_password='{$pass}' && u_status!=0");
+			$que=$this->conn->query("select * from p_staff where s_uname='{$user}' && s_passwd='{$pass}'");
 			if($que->num_rows==1){
 				$sh=$que->fetch_assoc();
-				$field_log="u_id,log_status,log_mac";
-				$val_log="'{$sh['u_id']}','1','{$token_id}'";
 
-				$que_log=json_decode(($this->insert("p_log",$field_log,$val_log)));	
 				$res=[
 					"status"=>1,
-					"id"=>$sh['u_id'],
-					"name"=>$sh['u_name'],
-					"lname"=>$sh['u_lname'],
-					"u_status"=>$sh['u_status'],
-					"log_id"=>$que_log->last_id
+					"auth"=>1,
+					"nfc_usr"=>$sh['s_id'],
+
 				];
-			}else{$res=[
+				
+			}else{
+				$res=[
 					"status"=>0,
 					"msg"=>"ไม่พบ username password ดังกล่าว"
 				];
 			}		
-		}
-		$json=json_encode($res);
-		return $json;
+		return json_encode($res);
 	}
 	function regist($data){
 		$field="";$i=0;$val="";
@@ -95,7 +71,7 @@ class controller{
 			$i++;
 		}
 
-		return $this->insert("p_user",$field,$val);
+		return $this->insert("p_staff",$field,$val);
 	}
 	function insert($table,$field,$val){
 		$que=$this->conn->query("insert into $table ({$field}) values ({$val})");
@@ -114,6 +90,8 @@ class controller{
 
 	}
 	function update($table,$val,$where){
+		// echo "update $table set $val where $where";
+
 		$que=$this->conn->query("update $table set $val where $where");
 		if(!$que){
 			$res=[
@@ -145,7 +123,7 @@ class controller{
 	}
 	function select($table,$select,$where){
 		$data=[];
-		
+		// echo "select $select from $table $where";
 		$que=$this->conn->query("select $select from $table $where");
 		if($que->num_rows!=0){
 			foreach ($que as $key => $value) {
@@ -156,6 +134,10 @@ class controller{
 		}
 		
 		return json_encode($data);
+	}
+	function count_rows($table,$select,$where){
+		$que=$this->conn->query("select $select from $table $where");
+		return $que->num_rows;
 	}
 	function re_encode($pass){
 		$val=md5($pass);
