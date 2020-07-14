@@ -289,7 +289,7 @@
 					
 				</form>
 	        <!-- Modal footer -->
-					<div class="modal-footer" id="modal_p_terms_of_use_foot">	
+					<div class="modal-footer" id="modal_p_terms_of_use_foot_2">	
 						<button id="btn_save" onclick="add()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>
 					</div>
 				</div>
@@ -340,6 +340,7 @@
 	    }
 	});
 	function func_search(){
+		clear_input();
 		load_p_drug($("#txt_search").val(),tmp_page);
 	}
 	$("#frm_search_drug").submit(function( event ) {
@@ -364,6 +365,7 @@
 		$("#t_frequency_chk").prop('checked', false);
 		$("#t_frequency").prop('disabled', true);
 		$("#t_frequency").val('');
+		$("#modal_p_terms_of_use_foot_2").html();
 		// $("#frm_p_patient").removeClass("was-validated");
 	}
 	function add_drug(d_id,d_name){
@@ -469,9 +471,7 @@
 							limit_word+=item.d_name[i];
 							if(i==19){limit_word+="...";}
 						}
-							
-						
-						txt+=`<tr style="cursor: pointer;" onclick="sh_data('${item.t_id}')">
+						txt+=`<tr style="cursor: pointer;" onclick="sh_data('${item.t_id}','2')">
 							<td>${row}</td>
 					        <td>${limit_word} </td>`;
 					});
@@ -482,11 +482,24 @@
 				$("#loading").hide();
 			});
 	}
-	function sh_data(t_id){
+	function cv_print_page(d_name,d_info,txt_food,text_drug){
+		console.log(d_name);
+		console.log(d_info);
+		console.log(txt_food);
+		console.log(text_drug);
+		// $.each(data,(i, item)=>{
+		// 	console.log(item);
+		// });
+	}
+	function sh_data(t_id,mode){
 		clear_input();
+		let text_drug="";
+		let txt_food;
 		let filter=t_id;
 		let drug_name;
 		let drug_expire;
+
+		let button="";
 			$.ajax({
 				type:"POST",
 				url:link_patient_detail,
@@ -496,29 +509,64 @@
 				}
 			}).done((res)=>{
 				var data=JSON.parse(res);
+				
 				if(!data.msg){
 					// console.log(data);
+
 					$.each(data,(i, item)=>{
+
+						if(item.t_food==1){
+							txt_food="ก่อนอาหาร";
+						}else if(item.t_food==2){
+							txt_food="หลังอาหาร";
+						}else{
+							txt_food="ไม่ระบุ";
+						}
+
 						drug_name=`	<h3>${item.d_name}</h3><p>
 									<span>${item.d_info}</span><br>
 									<hr>
 						`;
 						drug_expire=`<hr><span>วันหมดอายุ ${item.d_expire}</span>`;
-						if(item.t_when_symptoms==1){$("#t_when_symptoms").prop('checked', true);}
-						if(item.t_morning==1){$("#t_morning").prop('checked', true);}
-						if(item.t_midday==1){$("#t_midday").prop('checked', true);}
-						if(item.t_evening==1){$("#t_evening").prop('checked', true);}
-						if(item.t_befor_bed==1){$("#t_befor_bed").prop('checked', true);}
+						if(item.t_when_symptoms==1){
+							text_drug+=" เมื่อมีอาการ "
+							$("#t_when_symptoms").prop('checked', true);
+						}
+						if(item.t_morning==1){
+							text_drug+=" เช้า "
+							$("#t_morning").prop('checked', true);}
+						if(item.t_midday==1){
+							text_drug+=" กลางวัน "
+							$("#t_midday").prop('checked', true);}
+						if(item.t_evening==1){
+							text_drug+=" เย็น "
+							$("#t_evening").prop('checked', true);}
+						if(item.t_befor_bed==1){
+							text_drug+=" ก่อนนอน "
+							$("#t_befor_bed").prop('checked', true);}
 						if(item.t_frequency!=0){
 							$("#t_frequency_chk").prop('checked', true);
 							$("#t_frequency").prop('disabled', false);
 							$("#t_frequency").val(item.t_frequency);
+							text_drug+=` ทุกๆ  ${item.t_frequency} ชั่วโมง`;
 						}
 						$("input[name=t_food][value="+item.t_food+"]").prop('checked', true);
+						console.log(mode);
+						if(mode==2){
+							button=`
+							<button id="btn_del" onclick="del()" type="button" class="btn btn-danger" data-dismiss=""><i class="fas fa-trash-alt fa-1x"></i> ลบ</button>
+							<button id="btn_print" onclick="cv_print_page('${item.d_name}','${item.d_info}','${txt_food}','${text_drug}')" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-print fa-1x"></i> พิมพ์</button>`;
+						}else{
+							button=`<button id="btn_save" onclick="add()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
+						}
+						
 					});
 				}
+				// console.log(text_drug);
+				
 				$("#drug_data").html(drug_name);
 				$("#drug_expire").html(drug_expire);
+				$("#modal_p_terms_of_use_foot_2").html(button);
 				$("#modal_p_terms_of_use_2").modal('toggle');
 			});
 	}

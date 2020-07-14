@@ -12,6 +12,13 @@ function img_preview(img,target){
 	reader.readAsDataURL(img.files[0]);
 }
 
+function cv_print(area_name) {
+     var print_content = document.getElementById(area_name).innerHTML;
+     var originalContents = document.body.innerHTML;
+     document.body.innerHTML = print_content;
+     window.print();
+     document.body.innerHTML = originalContents;
+}
 $(document).ready(function(){
 
 	let weblink="http://localhost/nfc_data/";
