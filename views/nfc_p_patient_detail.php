@@ -279,9 +279,27 @@
 									</div>
 	                            </div>
 	                        </div>
-	                        <div id="drug_expire"></div>
+	                        
 	                    </div>
 
+	                    <div class="col-md-12 mb-12">
+	                    	<label class="cv_keep-left" for="t_dose">ขนาดการใช้ยา</label>
+	                        <div class="input-group">
+	                            <div class="input-group-prepend">
+	                            <span class="input-group-text" ><i class="fas fa-tags"></i></span>
+	                            </div>
+	                            <input type="text" class="form-control" id="t_dose" name="t_dose" oninvalid="this.setCustomValidity('ขนาดการใช้ยา')"required oninput="this.setCustomValidity('')" placeholder="ขนาดการใช้ยา">
+
+	                            <select class="form-control" id="t_dose_unit" name="t_dose_unit">
+							      <option value="เม็ด">เม็ด</option>
+							      <option value="ช้อนชา">ช้อนชา</option>
+							      <option value="ช้อนโต๊ะ">ช้อนโต๊ะ</option>
+							    </select>
+	                        </div>
+	                    </div>
+	                    <div class="col-md-12 mb-12">
+	                   		<div id="drug_expire"></div>
+	                   	</div>
 	                </div>
 
 					<div id="frm"></div>
@@ -297,6 +315,24 @@
 		</div>
 	</div>
 
+
+	<div class="modal fade" id="modal_print_content" >
+		<div class="modal-dialog modal-lg" >
+			<div class="modal-content">
+	        <!-- Modal Header -->
+				<div class="modal-header" id="head_stage">
+					<h4 class="modal-title">ข้อมูลยาผู้ป่วย</h4>
+					<button type="button" onclick="clear_input()" class="close" data-dismiss="modal">&times;</button>
+				</div>
+	        <!-- Modal body -->
+	        	<div id="print_content" class="col-md-4"></div>
+
+	        	<div class="modal-footer" id="modal_p_terms_of_use_foot_2">	
+					<button id="btn_save" onclick="cv_print('print_content')" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> พิมพ์</button>
+				</div>
+	    	</div>
+	    </div>
+	</div>
 <div style="margin-top:10px;">
 	<ul class="pagination justify-content-center" id="pagination">
   	</ul>
@@ -351,7 +387,11 @@
 	function open_add(){
 		clear_input();
 		let txt=`<button id="btn_save" onclick="add()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
+		let button=`<button id="btn_save" onclick="add()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
+		$("#drug_data").html('');
+		$("#drug_expire").html('');
 		$("#mng").html(txt);
+		$("#modal_p_terms_of_use_foot_2").html(button);
 	}
 
 	function clear_input(){
@@ -365,7 +405,11 @@
 		$("#t_frequency_chk").prop('checked', false);
 		$("#t_frequency").prop('disabled', true);
 		$("#t_frequency").val('');
+		$("#t_dose").val('');
+		$("#t_dose_unit").val('');
 		$("#modal_p_terms_of_use_foot_2").html();
+
+		
 		// $("#frm_p_patient").removeClass("was-validated");
 	}
 	function add_drug(d_id,d_name){
@@ -482,14 +526,67 @@
 				$("#loading").hide();
 			});
 	}
-	function cv_print_page(d_name,d_info,txt_food,text_drug){
-		console.log(d_name);
-		console.log(d_info);
-		console.log(txt_food);
-		console.log(text_drug);
-		// $.each(data,(i, item)=>{
-		// 	console.log(item);
-		// });
+	function cv_print_page(d_name,d_info,txt_food,text_drug,drug_expire,t_dose,t_dose_unit){
+		var print_page=`
+			<div style="width:45%;font-size:14px">
+						<div class="col-md-12 mb-12" style="margin-top:0px" style="margin-top:-5px" id="drug_data">
+							<div class="form-group row">
+							    <label for="" class="col-sm-4 col-form-label">ยา</label>
+							    <div class="col-sm-8" style="margin-top:6px">
+							    	${d_name}
+							    </div>
+							</div>
+						</div>
+						<div class="col-md-12 mb-12" style="margin-top:-20px" id="drug_data">
+							<div class="form-group row">
+							    <label for="" class="col-sm-4 col-form-label">สรรพคุณ</label>
+							    <div class="col-sm-8" style="margin-top:6px">
+							      	${d_info}
+							    </div>
+							</div>
+						</div>
+					    <div class="col-md-12 mb-12" style="margin-top:-20px">
+						    <div class="form-group row">
+							    <label for="" class="col-sm-4 col-form-label">มื้ออาหาร </label>
+							    <div class="col-sm-8" style="margin-top:6px">
+							    	${txt_food}
+							    </div>
+							</div>
+	                    </div>
+	                    <div class="col-md-12 mb-12" style="margin-top:-20px">
+						    <div class="form-group row">
+							    <label for="" class="col-sm-4 col-form-label">ช่วงเวลาการใช้ยา</label>
+							    <div class="col-sm-8" style="margin-top:6px">
+							    	 ${text_drug}
+							    </div>
+							</div>
+	                    </div>
+	                    <div class="col-md-12 mb-12" style="margin-top:-20px">
+	                    	
+							    <div class="form-group row">
+								    <label for="" class="col-sm-4 col-form-label">ขนาดการใช้ยา</label>
+								    <div class="col-sm-8" style="margin-top:6px">
+								    	 ครั้งละ ${t_dose} ${t_dose_unit} 
+								    </div>
+								</div>
+		                   
+	                    </div>
+	                    <div class="col-md-12 mb-12" style="margin-top:-20px">
+	                    	
+							    <div class="form-group row">
+								    <label for="" class="col-sm-4 col-form-label">วันหมดอายุ</label>
+								    <div class="col-sm-8" style="margin-top:6px">
+								    	 ${drug_expire}  
+								    </div>
+								</div>
+		                    
+	                    </div>
+	        </div>
+		`;
+		$("#print_content").html(print_page);
+		cv_print('print_content');
+		// $("#modal_print_content").modal('toggle');
+		$("#modal_p_terms_of_use_2").modal('toggle');
 	}
 	function sh_data(t_id,mode){
 		clear_input();
@@ -527,7 +624,8 @@
 									<span>${item.d_info}</span><br>
 									<hr>
 						`;
-						drug_expire=`<hr><span>วันหมดอายุ ${item.d_expire}</span>`;
+
+						drug_expire=`<hr><span>วันหมดอายุ ${chk_date(item.d_expire)}</span>`;
 						if(item.t_when_symptoms==1){
 							text_drug+=" เมื่อมีอาการ "
 							$("#t_when_symptoms").prop('checked', true);
@@ -551,11 +649,14 @@
 							text_drug+=` ทุกๆ  ${item.t_frequency} ชั่วโมง`;
 						}
 						$("input[name=t_food][value="+item.t_food+"]").prop('checked', true);
-						console.log(mode);
+
+						$("#t_dose").val(item.t_dose);
+						let str_select="#t_dose_unit option[value="+item.t_dose_unit+"]";
+						$(str_select).attr('selected','selected');
 						if(mode==2){
 							button=`
 							<button id="btn_del" onclick="del()" type="button" class="btn btn-danger" data-dismiss=""><i class="fas fa-trash-alt fa-1x"></i> ลบ</button>
-							<button id="btn_print" onclick="cv_print_page('${item.d_name}','${item.d_info}','${txt_food}','${text_drug}')" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-print fa-1x"></i> พิมพ์</button>`;
+							<button id="btn_print" onclick="cv_print_page('${item.d_name}','${item.d_info}','${txt_food}','${text_drug}','${chk_date(item.d_expire)}','${item.t_dose}','${item.t_dose_unit}')" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-print fa-1x"></i> พิมพ์</button>`;
 						}else{
 							button=`<button id="btn_save" onclick="add()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
 						}

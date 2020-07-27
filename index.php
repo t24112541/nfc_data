@@ -23,7 +23,7 @@
   <script src="./js/jquery-3.4.1.js"></script>
   <script src="./js/popper.min.js"></script>
   <script src="./js/bootstrap.min.js"></script>
-  <script src="./js/cv_js.js?v=1012"></script>
+  <script src="./js/cv_js.js?v=1013"></script>
 </head>
 
 <body id="page-top">
@@ -141,6 +141,6 @@
  -->
 </body>
 <script type="text/javascript">
-  var link="http://localhost/nfc_data/call_controller/api.php";
+  var link="./call_controller/api.php";
 </script>
 </html>
