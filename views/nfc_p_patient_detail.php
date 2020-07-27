@@ -527,8 +527,9 @@
 			});
 	}
 	function cv_print_page(d_name,d_info,txt_food,text_drug,drug_expire,t_dose,t_dose_unit){
+		$("#modal_p_terms_of_use_2").modal('toggle');
 		var print_page=`
-			<div style="width:45%;font-size:14px">
+			<div style="width:45%;font-size:14px" id="print_label">
 						<div class="col-md-12 mb-12" style="margin-top:0px" style="margin-top:-5px" id="drug_data">
 							<div class="form-group row">
 							    <label for="" class="col-sm-4 col-form-label">ยา</label>
@@ -584,9 +585,10 @@
 	        </div>
 		`;
 		$("#print_content").html(print_page);
-		cv_print('print_content');
+		$("#modal_print_content").modal('toggle');
+		cv_print('print_label');
 		// $("#modal_print_content").modal('toggle');
-		$("#modal_p_terms_of_use_2").modal('toggle');
+		// $("#modal_p_terms_of_use_2").modal('toggle');
 	}
 	function sh_data(t_id,mode){
 		clear_input();
@@ -597,6 +599,8 @@
 		let drug_expire;
 
 		let button="";
+
+		
 			$.ajax({
 				type:"POST",
 				url:link_patient_detail,
