@@ -224,6 +224,7 @@
 				</div>
 	        <!-- Modal body -->
 	        	<form id="frm_p_terms_of_use_2" enctype="multipart/form-data">
+	        		<input type="hidden" name="t_id" id="t_id" >
 					<div class="modal-body">
 						<div class="col-md-12 mb-12" id="drug_data">
 						</div>
@@ -489,6 +490,29 @@
 				// set_pagination(filter,page);
 			});
 	}
+
+	function del(){
+			$("#msg").html("");
+			$.ajax({
+				type:"POST",
+				url:link_patient_detail,
+				data:{
+					"t_id":$("#t_id").val(),
+					"del_p_terms_of_use":true
+				}
+			}).done((res)=>{
+				let data=JSON.parse(res);
+				if(data.status){
+					$("#modal_p_terms_of_use_2").modal('toggle');
+					load_p_patient_and_drug();
+					load_p_patient();
+					clear_input();
+				}else{
+					$("#msg").html("<div class='col-sm-12' style='color:#bd4646;text-align:center'>"+data.msg+"</div>");
+				}
+
+			});
+	}
 	function load_p_patient_and_drug(filter){
 			let dat_param="<?php echo $_GET['sh_patient_detail']?>";
 			let txt;
@@ -585,7 +609,7 @@
 	        </div>
 		`;
 		$("#print_content").html(print_page);
-		$("#modal_print_content").modal('toggle');
+		// $("#modal_print_content").modal('toggle');
 		cv_print('print_label');
 		// $("#modal_print_content").modal('toggle');
 		// $("#modal_p_terms_of_use_2").modal('toggle');
@@ -657,6 +681,7 @@
 						$("#t_dose").val(item.t_dose);
 						let str_select="#t_dose_unit option[value="+item.t_dose_unit+"]";
 						$(str_select).attr('selected','selected');
+						$("#t_id").val(item.t_id);
 						if(mode==2){
 							button=`
 							<button id="btn_del" onclick="del()" type="button" class="btn btn-danger" data-dismiss=""><i class="fas fa-trash-alt fa-1x"></i> ลบ</button>

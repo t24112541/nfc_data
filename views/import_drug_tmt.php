@@ -52,7 +52,7 @@
 		var fileName = file.files[0].name;
 		let spl=fileName.split(".");
 		let val_chk=0;
-		console.log(spl[0]);
+		// console.log(spl[0]);
 		if(spl[1]!="xls"){val_chk++;}
 		if(spl[0][0]!="T"){val_chk++;}
 		if(spl[0][1]!="M"){val_chk++;}

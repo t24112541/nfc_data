@@ -149,7 +149,7 @@
 
 	// ------------------------- function -------------------------//
 	$("#d_expire").change(()=>{
-		console.log($("#d_expire").val());
+		// console.log($("#d_expire").val());
 	});
 	$(document).on('keypress',function(e) {
 	    if(e.which == 13) {
@@ -195,7 +195,7 @@
 				}
 			}).done((res)=>{
 				var data=JSON.parse(res);
-				console.log(data);
+				// console.log(data);
 				if(!data.msg){
 					$.each(data,(i, item)=>{
 						

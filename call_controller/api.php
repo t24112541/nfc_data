@@ -4,7 +4,11 @@ ob_start();
 // $_SESSION['u_id']=1010101;
 // session_destroy();
 	require_once("../db/controller.php");
-	$db=new controller("localhost","root","","nfc_dts");
+	if(getenv('DEV')=="production"){
+        $db=new controller(getenv('MYSQL_HOST'),getenv('MYSQL_USER'),getenv('MYSQL_ROOT_PASSWORD'),getenv('MYSQL_DATABASE'));
+    }else{
+        $db=new controller("localhost","root","","nfc_dts");
+    }
 	$perpage=10;
 
 	if(isset($_POST['load_p_patient'])){
