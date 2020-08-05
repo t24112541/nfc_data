@@ -23,7 +23,7 @@
   <script src="./js/jquery-3.4.1.js"></script>
   <script src="./js/popper.min.js"></script>
   <script src="./js/bootstrap.min.js"></script>
-  <script src="./js/cv_js.js?v=1013"></script>
+  <script src="./js/cv_js.js?v=1019"></script>
 </head>
 
 <body id="page-top">
@@ -69,6 +69,7 @@
               else if(isset($_GET['nfc_p_staff'])){require_once("./views/nfc_p_staff.html");}
               else if(isset($_GET['sh_patient_detail'])){require_once("./views/nfc_p_patient_detail.php");}
               else if(isset($_GET['nfc_p_patient_detail_add_drug'])){require_once("./views/nfc_p_patient_detail_add_drug.php");}
+              else if(isset($_GET['dose_unit'])){require_once("./views/dose_unit.html");}
               else if(isset($_GET['logout'])){
                 session_destroy();
                 echo "<meta http-equiv='refresh' content='0;url=?'>";
@@ -131,7 +132,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="./js/sb-admin-2.min.js"></script>
-  <script src="./js/cv_js.js?v=1011"></script>
+  <!-- <script src="./js/cv_js.js?v=1017"></script> -->
   <!-- Page level plugins -->
   <!-- <script src="./vendor/chart.js/Chart.min.js"></script> -->
 
@@ -141,6 +142,7 @@
  -->
 </body>
 <script type="text/javascript">
+  $("title").text(title());
   var link="./call_controller/api.php";
 </script>
 </html>
