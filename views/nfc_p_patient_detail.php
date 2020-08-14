@@ -537,7 +537,7 @@
 				$("#loading").hide();
 			});
 	}
-	function cv_print_page(p_name,d_des,d_name,d_info,txt_food,text_drug,drug_expire,t_dose,t_dose_unit,t_id){
+	function cv_print_page(p_name,d_des,d_name,d_info,txt_food,text_drug,drug_expire,t_dose,t_dose_unit,t_id,p_id){
 		$("#modal_p_terms_of_use_2").modal('toggle');
 		let export_date=chk_date(`<?php echo date("Y-m-d");?>`);
 		var print_page=`
@@ -560,7 +560,7 @@
 							<div class="form-group row">
 							<label for="" class="col-sm-4 col-form-label">ชื่อ</label>
 							    <div class="col-sm-8" style="margin-top:6px">
-							    	${p_name}
+							    	${p_name} ${p_id}
 							    </div>
 							</div>
 						</div>
@@ -722,7 +722,7 @@
 						if(mode==2){
 							button=`
 							<button id="btn_del" onclick="del()" type="button" class="btn btn-danger" data-dismiss=""><i class="fas fa-trash-alt fa-1x"></i> ลบ</button>
-							<button id="btn_print" onclick="cv_print_page('${item.p_name} ${item.p_lname}','${d_des}','${item.d_name}','${d_in}','${txt_food}','${text_drug}','${chk_date(item.d_expire)}','${item.t_dose}','${item.du_name}','${item.t_id}')" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-print fa-1x"></i> พิมพ์</button>`;
+							<button id="btn_print" onclick="cv_print_page('${item.p_name} ${item.p_lname}','${d_des}','${item.d_name}','${d_in}','${txt_food}','${text_drug}','${chk_date(item.d_expire)}','${item.t_dose}','${item.du_name}','${item.t_id}','${item.p_id}')" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-print fa-1x"></i> พิมพ์</button>`;
 						}else{
 							button=`<button id="btn_save" onclick="add()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-save fa-1x"></i> บันทึก</button>`;
 						}
