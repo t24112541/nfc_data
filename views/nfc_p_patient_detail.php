@@ -540,21 +540,21 @@
 	function cv_print_page(p_name,d_des,d_name,d_info,txt_food,text_drug,drug_expire,t_dose,t_dose_unit,t_id,p_id){
 		$("#modal_p_terms_of_use_2").modal('toggle');
 		let export_date=chk_date(`<?php echo date("Y-m-d");?>`);
+		let nfc_data="";
+		if(d_des!=""){nfc_data+=`<input type="hidden" name="d_des" id="d_des" value="${d_des}">`;}
+		if(d_info!=""){nfc_data+=`<input type="hidden" name="d_info" id="d_info" value="${d_info}">`;}
+		if(txt_food!="" && txt_food!="ไม่ระบุ"){nfc_data+=`<input type="hidden" name="txt_food" id="txt_food" value="ช่วงใช้ยา ${txt_food}">`;}
+		if(text_drug!=""){nfc_data+=`<input type="hidden" name="text_drug" id="text_drug" value="เวลาการใช้ยา ${text_drug}">`;}
+		if(t_dose!=""){nfc_data+=`<input type="hidden" name="t_dose" id="t_dose" value="ใช้ยา ครั้งละ ${t_dose} ${t_dose_unit}">`;}
+		if(drug_expire!=""){nfc_data+=`<input type="hidden" name="drug_expire" id="drug_expire" value="วันหมดอายุ ${drug_expire}">`;}
 		var print_page=`
-		<link rel="stylesheet" href="./css/cv_style.css?v=1016">
-		<link href="./css/sb-admin-2.min.css?v=1001" rel="stylesheet">
 			<div style="width:45%;font-size:10px" id="print_label">
 			<form id="print_stage" enctype="multipart/form-data">
 				<input type="hidden" name="t_id" value="${t_id}">
 			</form>
-			<form id="print_nfc" enctype="multipart/form-data">
+			<form id="print_nfc" enctype="multipart/form-data" >
 				<input type="hidden" name="p_name" id="p_name" value="${p_name}">
-				<input type="hidden" name="d_des" id="d_des" value="คำอธิบายการใช้ยา ${d_des}">
-				<input type="hidden" name="d_info" id="d_info" value="สรรพคุณ ${d_info}">
-				<input type="hidden" name="txt_food" id="txt_food" value="มื้ออาหาร ${txt_food}">
-				<input type="hidden" name="text_drug" id="text_drug" value="ช่วงเวลาการใช้ยา ${text_drug}">
-				<input type="hidden" name="p_use_case" id="p_use_case" value="ขนาดการใช้ยา ครั้งละ ${t_dose} ${t_dose_unit}">
-				<input type="hidden" name="drug_expire" id="drug_expire" value="วันหมดอายุ ${drug_expire}">
+				${nfc_data}				
 			</form>
 						<div class="col-md-12 mb-12" style="margin-top:0px" style="margin-top:-5px" id="drug_data">
 							<div class="form-group row">
