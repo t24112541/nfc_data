@@ -548,7 +548,7 @@
 		if(t_dose!=""){nfc_data+=`<input type="hidden" name="t_dose" id="t_dose" value="ใช้ยา ครั้งละ ${t_dose} ${t_dose_unit}">`;}
 		if(drug_expire!=""){nfc_data+=`<input type="hidden" name="drug_expire" id="drug_expire" value="วันหมดอายุ ${drug_expire}">`;}
 		var print_page=`
-			<div style="width:45%;font-size:10px" id="print_label">
+			<div style="width:100%;font-size:35px;font-weight: bold;" id="print_label">
 			<form id="print_stage" enctype="multipart/form-data">
 				<input type="hidden" name="t_id" value="${t_id}">
 			</form>

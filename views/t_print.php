@@ -1,23 +1,29 @@
 <?php header('Access-Control-Allow-Origin: http://localhost/nfc_data/views/t_print.php'); ?>
+
 <title></title>
  <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="../css/sb-admin-2.min.css?v=1001" rel="stylesheet">
 <link href="../css/cv_style.css" rel="stylesheet">
-<div style="" class="col-sm-8">
-	<input type="text" name="device_ip" id="device_ip" placeholder="ip ของ DTS Writer" class="form-control col-sm-6">
-</div>
-<div class="col-sm-8" id="print_view"></div>
-<div class="col-sm-4 form-group">
-	<div class="form-check"><center>
-	    <input type="checkbox" checked class="form-check-input" id="chk_nfc">
-	    <label class="form-check-label" for="chk_nfc">เขียน Tag NFC</label>
-	  </div>
-</div>
-<div class="col-sm-4"><center>
-	<button id="btn_save" onclick="add()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-print"></i> พิมพ์</button>
-	<!-- 1 -->
-</div>
+<div style="margin:20px;padding:50px;background-color:#fdfdfd;width: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: left;">
+	<div style="" class="col-sm-12">
+		<input type="text" name="device_ip" id="device_ip" placeholder="ip ของ DTS Writer" class="form-control col-sm-6">
+	</div>
+	<div class="col-sm-12" id="print_view"></div>
+	<!-- <div class="col-sm-4 form-group">
+		<div class="form-check"><center>
+			<input type="checkbox" checked class="form-check-input" id="chk_nfc">
+			<label class="form-check-label" for="chk_nfc">เขียน Tag NFC</label>
+		</div>
+	</div> -->
+	<div class="col-sm-4"><center>
+		<button id="btn_save" onclick="add()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-print"></i> พิมพ์</button>
+		<button id="btn_save" onclick="send_to_ncf()" type="button" class="btn btn-success" data-dismiss=""><i class="fas fa-print"></i> พิมพ์ TAG NFC</button>
 
+	</div>
+	<div id="loading"></div>
+</div>
 <script src="../js/cv_js.js?v=1014"></script>
 <script src="../js/jquery-3.4.1.js"></script>
 <script src="../js/popper.min.js"></script>
@@ -72,6 +78,7 @@
 		$.each(data,(key,val)=>{
 			form.append(val.name,val.value);
 		});
+		$("#loading").html("กำลังส่ง...");
 		link_esp+=$("#device_ip").val();
 		var settings = {
 		  "async": true,
@@ -87,6 +94,8 @@
 
 		$.ajax(settings).done(function (res) {
 		  console.log(res);
+		  $("#loading").html("เสร็จสิ้น!!");
+		  location.reload();
 		});
 	}
 	function print_nfc(){
