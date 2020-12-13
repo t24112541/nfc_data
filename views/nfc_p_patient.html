@@ -71,7 +71,7 @@
 					          <span class="input-group-text" ><i class="fas fa-tags"></i></span>
 					        </div>
 							<input type="hidden" name="frm_mode" id="frm_mode">
-							<input type="text" name="p_id" id="p_id">
+							<input type="hidden" name="p_id" id="p_id">
 					        <input type="text" class="form-control" id="p_card_id" name="p_card_id" oninvalid="this.setCustomValidity('รหัสประชาชน')"required oninput="this.setCustomValidity('')" placeholder="รหัสประชาชน">
 					    </div>
 				    </div>
@@ -340,7 +340,7 @@
 				type:"POST",
 				url:link,
 				data:{
-					"p_card_id":$("#p_card_id").val(),
+					"p_id":$("#p_id").val(),
 					"p_patient_del":true
 				}
 			}).done((res)=>{
